@@ -1648,6 +1648,8 @@ check_exec_condition (NemoAction  *action,
 
     strip_custom_modifier (split[1], &use_parent_dir, &exec_str);
 
+    g_strfreev (split);
+
     exec = g_string_new (exec_str);
 
     error = NULL;
@@ -1675,7 +1677,7 @@ check_exec_condition (NemoAction  *action,
 
     DEBUG ("Action checking exec condition '%s' returned: %d", exec->str, return_code);
 
-    /* frees exec_str */
+    /* frees exec_str, don't let valgrind say otherwise. */
     g_string_free (exec, TRUE);
 
     return (return_code == 0);
